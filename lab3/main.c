@@ -46,7 +46,16 @@ int main(void){
 */
 void PortFInit(void) {
     // Complete this function!
-    volatile uint32_t delay;      
+    volatile uint32_t delay;
+    // Turn on the clock for Port F
+    // Allow time for clock to start
+    // Disable analog on PF4 and PF2 AMSEL
+    // Clear PF4 and PF2 bit fields PCTL to configure as GPIO
+    // PF4 input, PF2 output
+    // Clear PF4 and PF2 bits AFSEL to disable alternate functions
+    // Set PF4 PUR to activate an internal pullup resistor
+    // Set PF4 and PF2 bits DEN to enable digital
+    // Set PF2 DATA so LED is initially ON
 }
 
 #define DELAY_100MS 146500 // ~100ms
