@@ -4,7 +4,7 @@
     Navigate to the bits.c to finish the ToggledBits function.
 
     To launch the UART serial connection, open the terminal and run:
-    'sudo picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
+    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
     Don't forget to restart the launch board!
 */
 
@@ -102,7 +102,7 @@ void DetectInputChange(void) {
     // Complete this function!
 }
 
-#define DELAY_50MS 67500 // ~50ms
+#define DELAY_50MS 80500 // ~50ms
 
 /*
     \brief Subroutine to delay 50 milliseconds

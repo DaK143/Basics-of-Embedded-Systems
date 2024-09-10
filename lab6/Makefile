@@ -53,13 +53,7 @@ LIBM:=${shell ${CC} ${CFLAGS} -print-file-name=libm.a}
 # The command for extracting images from the linked executables.
 OBJCOPY=${PREFIX}-objcopy
 
-# Tell the compiler to include debugging information if the DEBUG environment
-# variable is set.
-ifdef DEBUG
-CFLAGS+=-g -D DEBUG -O0
-else
-CFLAGS+=-Os
-endif
+CFLAGS+=-D DEBUG
 
 # Add the tool specific CFLAGS.
 CFLAGS+=-DTARGET_IS_BLIZZARD_RB1
@@ -78,10 +72,12 @@ all: ${COMPILER}
 all: ${COMPILER}/main.axf
 
 GRADER=verify
+UART=uartstdio
+STARTUP=startup
 
-# The rule to clean out all the build products (keep the grader files).
+# The rule to clean out all the build products, keep grader files.
 clean:
-	@find ${COMPILER} -maxdepth 1 ! -name '${GRADER}.o' -type f -delete
+	@find ${COMPILER} -maxdepth 1 ! -name '${GRADER}.o' ! -name '${STARTUP}.o' ! -name '${UART}.o' -type f -delete
 
 # The rule to create the target directory (will do nothing if already exists).
 ${COMPILER}:
@@ -95,16 +91,13 @@ ENTRY=ResetISR
 
 # Rules for building the main.
 ${COMPILER}/main.axf: ${COMPILER}/main.o
-${COMPILER}/main.axf: ${COMPILER}/startup.o
-#${COMPILER}/main.axf: ${COMPILER}/${GRADER}.o
 ${COMPILER}/main.axf: ${COMPILER}/bits.o
-${COMPILER}/main.axf: ${COMPILER}/uartstdio.o
 ${COMPILER}/main.axf: ${ROOT}/driverlib/${COMPILER}/libdriver.a
 ${COMPILER}/main.axf: ${SCATTERgcc}
 
 # The rule for building the OBJECT file from each C source file.
 ${COMPILER}${SUFFIX}/%.o: %.c
-	${CC} ${CFLAGS} -D${COMPILER} -o ${@} ${<}
+	${CC} ${CFLAGS} -g -O0 -D${COMPILER} -o ${@} ${<}
 
 # The rule for creating an OBJECT LIBRARY.
 ${COMPILER}${SUFFIX}/%.a:
@@ -114,6 +107,7 @@ ${COMPILER}${SUFFIX}/%.a:
 ${COMPILER}${SUFFIX}/%.axf:
 	${LD} -T ${SCATTERgcc}                                                   \
 	      --entry ${ENTRY}                                                   \
-	      ${LDFLAGS} -o ${@} ${COMPILER}/${GRADER}.o $(filter %.o %.a, ${^}) \
+	      ${LDFLAGS} -o ${@} ${COMPILER}/${GRADER}.o ${COMPILER}/${UART}.o   \
+		  ${COMPILER}/${STARTUP}.o $(filter %.o %.a, ${^}) 				     \
 	      '${LIBM}' '${LIBC}' '${LIBGCC}'
 	@${OBJCOPY} -O binary ${@} ${@:.axf=.bin}

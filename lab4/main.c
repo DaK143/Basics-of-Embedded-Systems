@@ -4,7 +4,7 @@
     Navigate to the sequence.c to finish subroutines.
 
     To launch the UART serial connection, open the terminal and run:
-    'sudo picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
+    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
     Don't forget to restart the launch board!
 */
 
