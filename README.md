@@ -8,14 +8,14 @@ In this repository you will find all of the labs that are required for completio
 Linux (or WSL), VS Code, openOCD, ARM compilers (arm-none-eabi), Cortex Debug VS Code extension is required to run and debug these labs. Place the whole labs catalogue folder under Tivaware/examples/. For additional information go to the [Moodle wiki](https://moodle.taltech.ee/mod/wiki/view.php?id=622173).
 
 ## Usage
-Open the folder of any lab in VS Code. Open the terminal and type:
-```make```
-To build the lab code and
-```../flash.sh```
+Open the folder of any lab in VS Code. Open the terminal and type:  
+```make```  
+To build the lab code and  
+```../flash.sh```  
 To flash the code on to the board.
 
 ## Lab assistance
-Anton Jaštšuk: ajasts@taltech.ee
+Anton Jaštšuk: ajasts@taltech.ee  
 Uljana Reinsalu: uljana.reinsalu@taltech.ee
 
 ## WIP
@@ -28,10 +28,10 @@ Uljana Reinsalu: uljana.reinsalu@taltech.ee
 - [ ] Final lab: Game
 
 ## Authors and acknowledgment
-Anton Jaštšuk
-Uljana Reinsalu
-Nazrul Nazeer 
-Tatsuki Ishikawa
-Jonathan Valvano
-Daniel Valvano
+Anton Jaštšuk  
+Uljana Reinsalu  
+Nazrul Nazeer  
+Tatsuki Ishikawa  
+Jonathan Valvano  
+Daniel Valvano  
 Ramesh Yerraballi
