@@ -11,7 +11,7 @@ Linux (or WSL), VS Code, openOCD, ARM compilers (arm-none-eabi), Cortex Debug VS
 Open the folder of any lab in VS Code. Open the terminal and type:
 ```make```
 To build the lab code and
-````../flash.sh```
+```../flash.sh```
 To flash the code on to the board.
 
 ## Lab assistance
