@@ -14,14 +14,21 @@ To build the lab code and
 ```../flash.sh```  
 To flash the code on to the board.
 
+To run the tests, navigate to
+```cd test```
+in any lab and then build the unit tests
+```make```
+
+This will build the function that would be tested and there is no need to build the whole lab in order to test.
+
 ## Lab assistance
 Anton Jaštšuk: ajasts@taltech.ee  
 Uljana Reinsalu: uljana.reinsalu@taltech.ee
 
 ## WIP
-- [ ] Lab 7: Interrupts
+- [x] Lab 7: Interrupts
 - [x] Lab 8: FSM
-- [ ] Lab 9: UART
+- [x] Lab 9: UART
 - [ ] Lab 10: DAC
 - [ ] Lab 11: ADC
 - [ ] Lab 12: Low power mode
