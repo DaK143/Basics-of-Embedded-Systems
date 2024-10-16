@@ -96,13 +96,13 @@ void RecordTimeAndData(void) {
     \param None
     \return None
     \note If there is a switch press, toggle the red LED with a frequency of 10Hz. If no press,
-    the LED is off. Delay50ms is called only when either switch is pressed.
+    the LED is off. Delay50ms is called once regardless of the input.
 */
 void DetectInputChange(void) {
     // Complete this function!
 }
 
-#define DELAY_50MS 80500 // ~50ms
+#define DELAY_50MS 100000 // Incorrect! Should be ~50ms, change this!
 
 /*
     \brief Subroutine to delay 50 milliseconds
