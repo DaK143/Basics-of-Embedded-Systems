@@ -29,7 +29,7 @@ Uljana Reinsalu: uljana.reinsalu@taltech.ee
 - [x] Lab 7: Interrupts
 - [x] Lab 8: FSM
 - [x] Lab 9: UART
-- [ ] Lab 10: DAC
+- [x] Lab 10: DAC
 - [ ] Lab 11: ADC
 - [ ] Lab 12: Low power mode
 - [ ] Final lab: Game
