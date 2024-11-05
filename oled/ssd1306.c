@@ -236,7 +236,7 @@ void DrawChar(uint8_t ch) {
 }
 
 // Currently wraps around
-void DrawStr(char* str) {
+void DrawStr(const char* str) {
     for (; *str; str++) {
         DrawChar(*str);
         // introduce 1 pixel gap between letters?

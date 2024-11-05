@@ -97,7 +97,7 @@ void SetCursor(uint8_t col, uint8_t page);
     \return None
     \note Draws at the current cursor position. Wraps around if cannot fit.
 */
-void DrawStr(char* str);
+void DrawStr(const char* str);
 
 /* 
     \brief Draws a ASCII character on the screen.
