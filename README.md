@@ -12,7 +12,7 @@ Open the folder of any lab in VS Code. Open the terminal and type:
 ```make```  
 To build the lab code and  
 ```../flash.sh```  
-To flash the code on to the board.
+to flash the code on to the board.
 
 To run the tests, navigate to
 ```cd test```
@@ -20,6 +20,10 @@ in any lab and then build the unit tests
 ```make```
 
 This will build the function that would be tested and there is no need to build the whole lab in order to test.
+
+To establish UART connection, run
+````../uart.sh```
+from the lab folder.
 
 ## Lab assistance
 Anton Jaštšuk: ajasts@taltech.ee  
