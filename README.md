@@ -22,7 +22,7 @@ in any lab and then build the unit tests
 This will build the function that would be tested and there is no need to build the whole lab in order to test.
 
 To establish UART connection, run
-````../uart.sh```
+```../uart.sh```
 from the lab folder.
 
 ## Lab assistance
