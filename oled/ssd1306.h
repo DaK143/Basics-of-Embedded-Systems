@@ -121,18 +121,27 @@ void DrawChar(uint8_t ch);
 void DrawPixel(uint8_t x, uint8_t y, bool clear_pixel);
 
 /* 
-    \brief Draws a line at the specified position. The length of the line is dictated
-    by the coordinates. When setting the `vertical` boolean, remember that either x or y should stay the
-    same!
+    \brief Draws a vertical line at the specified x position. The length of the line is dictated
+    by the y1 and y2 coordinates.
 
-    \param from_x Position in range (from 0 to 127 inclusively)
-    \param to_x Position in range (from 0 to 127 inclusively)
-    \param from_y Position in range (from 0 to 63 inclusively)
-    \param to_y Position in range (from 0 to 63 inclusively)
-    \param vertical Specifies either the line is veritcal (`true`) or horizontal (`false`) 
+    \param x Position in range (from 0 to 127 inclusively)
+    \param y1 Position in range (from 0 to 63 inclusively)
+    \param y2 Position in range (from 0 to 63 inclusively)
     \return None
     \note Doesn't depend on the current cursor position OR changes the current cursor position.
 */
-void DrawLine(uint8_t from_x, uint8_t to_x, uint8_t from_y, uint8_t to_y, bool vertical);
+void DrawVerticalLine(uint8_t x, uint8_t y1, uint8_t y2);
+
+/* 
+    \brief Draws a horizontal line at the specified y position. The length of the line is dictated
+    by the x1 and x2 coordinates.
+
+    \param y Position in range (from 0 to 63 inclusively)
+    \param x1 Position in range (from 0 to 127 inclusively)
+    \param x2 Position in range (from 0 to 127 inclusively)
+    \return None
+    \note Doesn't depend on the current cursor position OR changes the current cursor position.
+*/
+void DrawHorizontalLine(uint8_t y, uint8_t x1, uint8_t x2);
 
 #endif /* SSD1306_H */

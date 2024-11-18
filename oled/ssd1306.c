@@ -7,14 +7,15 @@
 #define DATA_BYTE       0x40   // next coming byte is a data on the screen
 
 #define FONT_SIZE       5
-#define CHAR_OFFSET     0x20   // offset used for the ascii font
+#define ASCII_SYMBOLS   96
+#define CHAR_OFFSET     32     // offset used for the ascii font
 
 #define CACHE_SIZE (SSD1306_LCDWIDTH * (SSD1306_LCDHEIGHT / PAGES))
 
-#define SIZE(arr) sizeof(arr) / sizeof(arr[0])
+#define SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 // 5x8 font (turned over)
-const uint8_t ascii[][FONT_SIZE] = {
+const uint8_t ascii[ASCII_SYMBOLS][FONT_SIZE] = {
   {0x00, 0x00, 0x00, 0x00, 0x00}, // 20
   {0x00, 0x00, 0x5f, 0x00, 0x00}, // 21 !
   {0x00, 0x07, 0x00, 0x07, 0x00}, // 22 "
@@ -202,7 +203,7 @@ void SetCursor(uint8_t col, uint8_t page) {
 void DrawPixel(uint8_t x, uint8_t y, bool clear_pixel) {
     if (!IsInLimits(x, SSD1306_LCDWIDTH, y, SSD1306_LCDHEIGHT)) { return; }
     uint8_t page = y / PAGE_SIZE;
-    uint8_t pixel_pos = 0x01 << (y % PAGE_SIZE);
+    uint8_t pixel_pos = 1 << (y % PAGE_SIZE);
     if (clear_pixel) {
         cache[page * SSD1306_LCDWIDTH + x] &= ~pixel_pos;
     } else {
@@ -210,22 +211,29 @@ void DrawPixel(uint8_t x, uint8_t y, bool clear_pixel) {
     }
 }
 
-// vertical or horizontal only
-void DrawLine(uint8_t from_x, uint8_t to_x, uint8_t from_y, uint8_t to_y, bool vertical) {
-    if (vertical) {
-        if (from_x != to_x) { return; }
-        for (uint8_t i = from_y; i < to_y; i++) {
-            DrawPixel(from_x, i, false);
-        }
-    } else {
-        if (from_y != to_y) { return; }
-        for (uint8_t i = from_x; i < to_x; i++) {
-            DrawPixel(i, from_y, false);
-        }   
+// swaps variables so max of both is in val2
+void Swap(uint8_t* val1, uint8_t* val2) {
+    if (*val1 > *val2) {
+        uint8_t temp = *val1;
+        *val1 = *val2;
+        *val2 = temp;
+    }
+}
+
+void DrawVerticalLine(uint8_t x, uint8_t y1, uint8_t y2) {
+    for (Swap(&y1, &y2); y1 <= y2; y1++) {
+        DrawPixel(x, y1, false);
+    }
+}
+
+void DrawHorizontalLine(uint8_t y, uint8_t x1, uint8_t x2) {
+    for (Swap(&x1, &x2); x1 <= x2; x1++) {
+        DrawPixel(x1, y, false);
     }
 }
 
 void DrawChar(uint8_t ch) {
+    if (ch < CHAR_OFFSET || ch > ASCII_SYMBOLS + CHAR_OFFSET - 1) { return; }
     for (uint8_t i = 0; i < SIZE(ascii[ch - CHAR_OFFSET]); i++) {
         cache[cache_cursor] = ascii[ch - CHAR_OFFSET][i];
         cache_cursor++;
@@ -239,6 +247,5 @@ void DrawChar(uint8_t ch) {
 void DrawStr(const char* str) {
     for (; *str; str++) {
         DrawChar(*str);
-        // introduce 1 pixel gap between letters?
     } 
 }
