@@ -20,6 +20,7 @@ void Delay20ms(void);
 int main(void) {
     SoundInit();
     PianoInit();
+    DACInit();
     BESGrader();
     while (true) {
         // Complete functionality!

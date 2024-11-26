@@ -17,7 +17,6 @@
 
     \param None
     \return None
-    \note Calls DACInit(). When setting priority, only bits 32, 31 and 30 are changed.
 */
 void SoundInit(void) ;
 

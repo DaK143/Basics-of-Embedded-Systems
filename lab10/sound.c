@@ -15,7 +15,7 @@ uint32_t i = 0;
 void SoundInit(void) {
     // Complete functionality!
 	// disable SysTick during setup
-	// reload value (if doesnt work change from 0 to any number)
+	// reload value is 0
 	// any write to current clears it
 	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0x00FFFFFF) | 0x20000000; // priority 1
 	// enable SysTick with core clock and interrupts
