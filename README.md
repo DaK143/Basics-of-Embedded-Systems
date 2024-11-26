@@ -35,7 +35,7 @@ Uljana Reinsalu: uljana.reinsalu@taltech.ee
 - [x] Lab 9: UART
 - [x] Lab 10: DAC
 - [x] Lab 11: ADC
-- [ ] Lab 12: Low power mode
+- [x] Lab 12: Low power mode
 - [ ] Final lab: Game
 
 ## Authors and acknowledgment
