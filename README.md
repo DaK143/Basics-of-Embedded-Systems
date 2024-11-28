@@ -29,20 +29,12 @@ from the lab folder.
 Anton Jaštšuk: ajasts@taltech.ee  
 Uljana Reinsalu: uljana.reinsalu@taltech.ee
 
-## WIP
-- [x] Lab 7: Interrupts
-- [x] Lab 8: FSM
-- [x] Lab 9: UART
-- [x] Lab 10: DAC
-- [x] Lab 11: ADC
-- [x] Lab 12: Low power mode
-- [ ] Final lab: Game
-
 ## Authors and acknowledgment
 Anton Jaštšuk  
 Uljana Reinsalu  
 Nazrul Nazeer  
 Tatsuki Ishikawa  
+
 Jonathan Valvano  
 Daniel Valvano  
 Ramesh Yerraballi
