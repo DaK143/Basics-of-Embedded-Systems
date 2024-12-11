@@ -28,8 +28,9 @@ void Debounce(void) {
     \return Random number in the range including both lower and upper limits
 */
 uint8_t RandInRange(uint8_t max, uint8_t min) {
-    int rand = urand() % (max + 1 - min) + min;
+    int rand = urand(); 
     rand *= rand < 0 ? -1 : 1;
+    rand = rand % (max + 1 - min) + min;
     return rand;
 }
 
