@@ -2,10 +2,7 @@
     Lab3 - Port initialization, Delay, LED control
 
     Navigate to the led_control.c to finish the SetOrToggleLED() function.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Finish the main function and the PortF initialization.
 */
 
 #include "led_control.h"
