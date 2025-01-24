@@ -30,15 +30,14 @@ void Debounce(void) {
 uint8_t RandInRange(uint8_t max, uint8_t min) {
     int rand = urand(); 
     rand *= rand < 0 ? -1 : 1;
-    rand = rand % (max + 1 - min) + min;
-    return rand;
+    return rand % (max + 1 - min) + min;
 }
 
 /*
     \brief SysTick interrupt handler that makes the buzzer pin PF3 output sound.
     \param None
     \return None
-    \note To disable handler set REALOD to 0.
+    \note To disable handler set RELOAD to 0.
 */
 void SysTickHandler(void) {
 
