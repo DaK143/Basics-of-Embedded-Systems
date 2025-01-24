@@ -1,11 +1,7 @@
 /*
     Lab7 - Interrupts and buzzer
 
-    Finish the SysTickHandler() function.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Finish the SysTickHandler() function, PortA initialization and NVIC_ST_RELOAD value.
 */
 
 #include "verify.h"
@@ -61,7 +57,7 @@ void SysTickInit(void) {
     NVIC_ST_CTRL_R = 0;           // disable SysTick during setup
     NVIC_ST_RELOAD_R = ? - 1;     // reload value for 1.13636ms (assuming 16MHz)
     NVIC_ST_CURRENT_R = 0;        // any write to current clears it
-    NVIC_SYS_PRI3_R = NVIC_SYS_PRI3_R & 0x00FFFFFF; // priority 0               
+    NVIC_SYS_PRI3_R = NVIC_SYS_PRI3_R & 0x1FFFFFFF; // priority 0               
     NVIC_ST_CTRL_R = 0x00000007;  // enable with core clock and interrupts
 }
 
