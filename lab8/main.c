@@ -1,12 +1,8 @@
 /*
     Lab8 - FSM
 
-    Complete port initializations and main code with FSM in the main.c file.
-    Navigate to fsm.h to add states.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Complete port initializations and main function. Fill in the 'fsm' array variable.
+    Choose the correct argument for the SysTickWait.
 */
 
 #include "verify.h"
