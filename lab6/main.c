@@ -2,10 +2,7 @@
     Lab6 - MC Debugging
 
     Navigate to the bits.c to finish the ToggledBits function.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Finish DetectInputChange function. Fix DELAY_50MS value.
 */
 
 #include "verify.h"
