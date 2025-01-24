@@ -1,11 +1,8 @@
 /*
     Lab4 - Loop sequence, subroutines, blocking functions
 
-    Navigate to the sequence.c to finish subroutines.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Navigate to the sequence.c to finish subroutines. Finish the main function.
+    Find the DELAY_1MS value.
 */
 
 #include "verify.h"
@@ -17,7 +14,7 @@ void Delay1ms(uint32_t msec);
 int main(void) {
     PortFInit();        // Initialize Port F
     BESGrader();
-    uint32_t out;       // output for PF3 and PF1
+    uint32_t out;       // output for PF3 and PF1 (for the debugger)
     while (true) {
         // Complete this functionality!
         // It is allowed to go on the slide (green)
