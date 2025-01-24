@@ -2,10 +2,7 @@
     Lab5 - Breadboard circuit building
 
     Navigate to the led_interface.c to finish the SetOrToggleLED() function.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Finish main function and PortE initialization.
 */
 
 #include "led_interface.h"
