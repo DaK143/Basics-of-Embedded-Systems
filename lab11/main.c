@@ -1,11 +1,9 @@
 /*
     Lab11 - ADC: Slide potentiometer, screen
 
-    Complete functions in this file and initialization in adc.c.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Complete main function, ConvertDistance, SysTickHandler
+    NVIC_ST_RELOAD and initialization in adc.c. In the main function choose either
+    UART or OLED.
 */
 
 #include "verify.h"
@@ -72,7 +70,7 @@ void SysTickInit(void) {
     NVIC_ST_CTRL_R = 0;                 // disable SysTick during setup
     NVIC_ST_RELOAD_R = ? - 1;      // reload value
     NVIC_ST_CURRENT_R = 0;              // any write to current clears it
-    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0x00FFFFFF) | 0x40000000; // priority 2        
+    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0x1FFFFFFF) | 0x40000000; // priority 2        
     NVIC_ST_CTRL_R = 0x07;              // enable SysTick with core clock and interrupts
 }
 
