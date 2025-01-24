@@ -44,7 +44,7 @@ void SysTickHandler(void);
 
     \param input Input value from the pressed switch
     \return Note period for the interrupt reload value
-    \note Multiple presses/no input - Note is Off
+    \note Multiple presses/no input - Note is Off (should return 1)
 */
 uint32_t ChooseNote(uint32_t input);
 

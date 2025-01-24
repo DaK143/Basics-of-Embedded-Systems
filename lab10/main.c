@@ -2,10 +2,7 @@
     Lab10 - DAC
 
     Navigate to the dac.c/piano.c/sound.c to finish functions.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Finish the main function.
 */
 
 #include "verify.h"
