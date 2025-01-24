@@ -1,11 +1,7 @@
 /*
     Lab12 - Low power mode
 
-    Complete functions in this file and analog_temp.c.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
+    Complete Port F initialization and finish SysTick init and analog_temp.c functions.
 */
 
 #include "verify.h"
@@ -79,9 +75,9 @@ void SysTickInit(void) {
     NVIC_ST_CTRL_R = 0;             // Disable SysTick during setup
     NVIC_ST_RELOAD_R = ? - 1; // Reload value
     NVIC_ST_CURRENT_R = 0;          // Any write to current clears it
-    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0x00FFFFFF) | 0x40000000; // priority 2
+    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0x1FFFFFFF) | 0x40000000; // priority 2
 	NVIC_SYS_CTRL_R |= 0x0?;        // Bit 1 set SLEEPEXIT
-    NVIC_ST_CTRL_R = 0x03;          // Enable SysTick with core clock and interrupts, CLK_SRC bit 2 is 0
+    NVIC_ST_CTRL_R = 0x03;          // Enable SysTick with PIOSC divided by 4 and interrupts, CLK_SRC bit 2 is 0
 }
 
 /*
