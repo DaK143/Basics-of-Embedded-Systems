@@ -2,10 +2,6 @@
     Lab1 - Simple I/O
     
     Navigate to the led_color.c file to finish the SetLEDColor() function.
-
-    To launch the UART serial connection, open the terminal and run:
-    'picocom -b 115200 -d 8 -p 1 -y n /dev/ttyACM0'.
-    Don't forget to restart the launch board!
 */
 
 #include "led_color.h"
@@ -34,7 +30,7 @@ int main(void) {
     \brief Subroutine to initialize port F pins for input and output.
     
     PF4 and PF0 are input SW1 and SW2 respectively.
-    PF3,PF2,PF1 are outputs to the LED.
+    PF3, PF2, PF1 are outputs to the LED.
 
     \param None
     \return None
