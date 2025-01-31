@@ -1,5 +1,5 @@
 /*
-    Lab6 - MC Debugging
+    Lab6 - µC Debugging
 
     Navigate to the bits.c to finish the ToggledBits function.
     Finish DetectInputChange function. Fix DELAY_50MS value.

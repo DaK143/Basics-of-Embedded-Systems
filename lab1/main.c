@@ -7,7 +7,7 @@
 #include "led_color.h"
 #include "verify.h"
 
-#define DELAY_20MS 27000
+#define DELAY_20MS 32000
 
 void PortFInit(void);
 void Delay20ms(void);

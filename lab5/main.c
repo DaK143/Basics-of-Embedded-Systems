@@ -55,7 +55,7 @@ void PortEInit(void) {
 	// Set PE1 so LED is initially ON      
 }
 
-#define DELAY_100MS 146500 // ~100ms
+#define DELAY_100MS 160000 // ~100ms
 
 /*
     \brief Subroutine to delay 100 milliseconds N times

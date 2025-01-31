@@ -1,7 +1,9 @@
 /*
     Lab8 - FSM
 
-    Complete port initializations and main function. Fill in the 'fsm' array variable.
+    Complete port initializations and main function.
+    Complete the enum states in the fsm.h.
+    Fill in the 'fsm' array variable.
     Choose the correct argument for the SysTickWait.
 */
 

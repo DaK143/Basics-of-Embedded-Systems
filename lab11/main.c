@@ -1,5 +1,5 @@
 /*
-    Lab11 - ADC: Slide potentiometer, screen
+    Lab11 - ADC, slide potentiometer
 
     Complete main function, ConvertDistance, SysTickHandler
     NVIC_ST_RELOAD and initialization in adc.c. In the main function choose either
