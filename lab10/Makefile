@@ -99,7 +99,7 @@ ${COMPILER}/main.axf: ${SCATTERgcc}
 
 # The rule for building the OBJECT file from each C source file.
 ${COMPILER}${SUFFIX}/%.o: %.c
-	${CC} ${CFLAGS} -g -O0 -D${COMPILER} -o ${@} ${<}
+	@${CC} ${CFLAGS} -g -O0 -D${COMPILER} -o ${@} ${<}
 
 # The rule for creating an OBJECT LIBRARY.
 ${COMPILER}${SUFFIX}/%.a:
@@ -107,9 +107,10 @@ ${COMPILER}${SUFFIX}/%.a:
 
 # The rule for linking the application (ALSO LINKS WITH GRADER).
 ${COMPILER}${SUFFIX}/%.axf:
-	${LD} -T ${SCATTERgcc}                                                   \
+	@${LD} -T ${SCATTERgcc}                                                   \
 	      --entry ${ENTRY}                                                   \
 	      ${LDFLAGS} -o ${@} ${COMPILER}/${GRADER}.o ${COMPILER}/${UART}.o   \
 		  ${COMPILER}/${STARTUP}.o $(filter %.o %.a, ${^}) 				     \
 	      '${LIBM}' '${LIBC}' '${LIBGCC}'
 	@${OBJCOPY} -O binary ${@} ${@:.axf=.bin}
+	@echo "SUCCESS: Compilation completed successfully."
