@@ -80,7 +80,7 @@ void SysTickInit(void) {
 void RecordTimeAndData(void) {
     if (i < ARR_SIZE && ToggledBits(GPIO_PORTF_DATA_R, before)) {
         uint32_t now = NVIC_ST_CURRENT_R;      // get current clock cycles
-        time[i] = (last - now) & 0x00FFFFFF;   // 24-bit time difference (gives values in ms)
+        time[i] = last - now;   // 24-bit time difference
         data[i] = GPIO_PORTF_DATA_R & 0x13;    // record PF0, PF1 and PF4
         last = now;
         i++;
