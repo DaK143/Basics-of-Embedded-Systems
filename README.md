@@ -53,3 +53,6 @@ Tatsuki Ishikawa
 Jonathan Valvano  
 Daniel Valvano  
 Ramesh Yerraballi
+
+![EU twin logo](images/Co-funded-by-the-European-Union-twin-logos.png)
+![Inseneriakadeemia logo](images/Inseneriakadeemia-logo.png)
