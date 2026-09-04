@@ -50,12 +50,12 @@ winget install --interactive --exact dorssel.usbipd-win
 Now your hardware is accessible inside WSL.
 
 ### Installation
-1. Open [TalTech GitLab](https://gitlab.cs.ttu.ee/), choose *New project -> Create blank project*.
+1. Open [TalTech GitLab](https://gitlab.cs.ttu.ee/), choose *New project -> Create blank project*. In *Manage -> Members -> Invite members* invite *ajasts* as a *Reporter*.
 
 2. Name the repository using kebab-case, set it to private and **UNTICK** the *Initialize repository with a README*.
 
-> **Warning:**
-> Ensure *Git* is installed on your system before proceeding. If not:
+> [!WARNING]
+> Ensure *Git* is installed on your system before proceeding (*Skip this step if using pre-configured classroom computers*). If not:
 > * **Linux**:
 >   * Debian/Ubuntu: In terminal run `sudo apt update && sudo apt install -y git`
 >   * Fedora/RHEL: In terminal run `sudo dnf install -y git`
@@ -63,7 +63,7 @@ Now your hardware is accessible inside WSL.
 > * **macOS**: In terminal run `xcode-select --install`
 > * **Windows 10/11 (Native)**: In PowerShell terminal run `winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements`
 
-3. Clone the ESLabs repository and change into the cloned directory:
+3. Clone the BESLabs repository and change into the cloned directory:
    ```bash
    git clone https://gitlab.cs.taltech.ee/ajasts/beslabs.git
    cd beslabs
