@@ -1,58 +1,258 @@
-# BESLabs
+# Basics of Embedded Systems Labs for IAS0230
+In this repository you will find all of the labs that are required for lab completion during the **IAS0230** course at TalTech.  
 
-## Basics of Embedded Systems Labs catalogue
+## Hardware and Tools Available in Class
+* **EK-TM4C123GXL**
+* **Hardware box (resistors, switches, LEDs, OLED screen, potentiometer, buzzer)**
+* **Multimeter**
+* **Saleae Logic Analyzer** (8 channel 24MHz)
 
-In this repository you will find all of the labs that are required for completion during the IAS0230 course in TalTech.
+--- 
 
-## Requirements
-Linux (or WSL), VS Code, openOCD, ARM compilers (arm-none-eabi), Cortex Debug VS Code extension is required to run and debug these labs. Place the whole labs catalogue folder under Tivaware/examples/. For additional information regarding installation see [Installation guide](EK-TM4C123GXL%20Tools%20Setup%20Guide.pdf) (start from step 6 if using class computers).
+## Getting Started
+### Windows Subsystem for Linux (WSL2)
+You can use a full Linux environment natively on Windows 10/11 without a traditional virtual machine if desired.
 
-## Usage
-Open the folder of any lab in VS Code. Open the terminal and type:  
-```make```  
-To build the lab code and  
-```../flash.sh```  
-to flash the code on to the board.
+#### Install WSL (Ubuntu default)  
+In **PowerShell (Admin)**, run:
+```powershell
+wsl --install
+```
 
-To run the tests, navigate to
-```cd test```
-in any lab and then build the unit tests
-```make```
+*Restart your PC after installation finishes.*
 
-This will build the function that would be tested and there is no need to build the whole lab in order to test.
+#### Install VS Code and WSL Extension (*ms-vscode-remote.remote-wsl*) on Windows.
 
-To establish UART connection, run
-```../uart.sh```
-from the lab folder.
+#### Install USB Passthrough (*usbipd-win*)
+In **PowerShell (Admin)**, run:
+```powershell
+winget install --interactive --exact dorssel.usbipd-win
+```
 
-### Lab contents (each has a unit test and a grader if not said otherwise)
-1. [Simple I/O](lab1)
-2. [Functions in C](lab2) (**No grader**)
-3. [Port init, delay, LED control](lab3)
-4. [Loop sequence, subroutines](lab4)
-5. [Breadboard circuit building](lab5)
-6. [µC debugging](lab6)
-7. [Interrupts and buzzer](lab7) (**No unit tests**)
-8. [FSM](lab8) (**No unit tests**)
-9. [UART, OLED display](lab9) (**No grader**)
-10. [DAC](lab10) (**Unit tests as grader**)
-11. [ADC, slide potentiometer](lab11) (**Unit tests as grader**)
-12. [Low power mode](lab12) (**No unit tests**)
-13. [Final game project](lab_final) (**No unit tests or grader**)
+#### Connecting Hardware to WSL
+* Plug in the board via USB and run this in **PowerShell (Admin)** on Windows:
+  ```powershell
+  usbipd list
+  # Look for 'Stellaris Virtual Serial Port' or 'XDS110 Class Application/User UART'
+  usbipd bind -i <VID:PID> # Only required once per unique board
+  ```
 
-## Lab assistance
+* Open your **WSL Linux terminal** and run this **only once per WSL boot**: 
+  ```bash
+  ./wsl2_usb_prepare.sh
+  ```
+
+* Run this **every time you plug in the board**:
+  ```bash
+  ./wsl2_usb_attach.sh
+  ```
+
+Now your hardware is accessible inside WSL.
+
+### Installation
+1. Open [TalTech GitLab](https://gitlab.cs.ttu.ee/), choose *New project -> Create blank project*.
+
+2. Name the repository using kebab-case, set it to private and **UNTICK** the *Initialize repository with a README*.
+
+> **Warning:**
+> Ensure *Git* is installed on your system before proceeding. If not:
+> * **Linux**:
+>   * Debian/Ubuntu: In terminal run `sudo apt update && sudo apt install -y git`
+>   * Fedora/RHEL: In terminal run `sudo dnf install -y git`
+>   * Arch: In terminal run `sudo pacman -Syu --needed --noconfirm git`
+> * **macOS**: In terminal run `xcode-select --install`
+> * **Windows 10/11 (Native)**: In PowerShell terminal run `winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements`
+
+3. Clone the ESLabs repository and change into the cloned directory:
+   ```bash
+   git clone https://gitlab.cs.taltech.ee/ajasts/beslabs.git
+   cd beslabs
+   ```
+
+4. Change the remote origin to point to your repository:
+   ```bash
+   git remote rename origin upstream
+   git remote add origin https://gitlab.cs.taltech.ee/<UNI-ID>/<YOUR_REPO_NAME>.git
+   git push -u origin main # Will ask you for your UNI-ID username and password
+   ```
+
+> **Important:**
+> In order to not enter the credentials everytime you push, use `git config credential.helper 'cache --timeout=10800'`. When you enter username and password next time, it will save the credentials for next 3 hours.
+
+5. Run the setup script for your OS which takes ~3 minutes (*Skip this step if using pre-configured classroom computers*):
+   * **Linux / WSL**  
+   In terminal, run: 
+   ```bash
+   ./setup_linux.sh
+   ```
+
+> **Important:**
+> Linux users must install [VS Code](https://code.visualstudio.com/docs/setup/linux) manually if it is not already installed.
+
+   * **macOS**  
+   In terminal, run: 
+   ```bash
+   ./setup_mac.command
+   ```
+
+> **Important:**
+> macOS users must install [VS Code](https://code.visualstudio.com/Download) manually. Then install required extensions: *'marus25.cortex-debug'*, *'llvm-vs-code-extensions.vscode-clangd'*.
+
+   * **Windows 10/11 (Native)**  
+   In **PowerShell (Admin)**, run:
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+   .\setup_win.ps1
+   ```
+
+6. Close and reopen the terminal for all environment variables (*PATH*) to take effect.
+
+### Structure
+```text
+.
+├── common/      # Shared source files
+├── lab*/        # Bare-metal microcontroller labs
+├── oled/        # Driver for the Adafruit 128x64 OLED
+├── ti/          # TivaWare include and source files*
+├── unity/       # Unit testing library
+└── project/     # Final robot project
+```
+
+**Include files are taken from [TivaWare for C Series Software](https://www.ti.com/tool/download/SW-TM4C/2.1.4.178).*
+
+### Lab Contents
+1. Simple I/O
+2. Functions in C (**No grader**)
+3. Port init, delay, LED control
+4. Loop sequence, subroutines
+5. Breadboard circuit building
+6. µC debugging
+7. Interrupts and buzzer (**No unit tests**)
+8. FSM (**No unit tests**)
+9. UART, OLED display (**No grader**)
+10. DAC (**Unit tests as grader**)
+11. ADC, slide potentiometer (**Unit tests as grader**)
+12. Low power mode (**No unit tests**)
+13. Final game project (**No unit tests or grader**)
+
+### Usage
+#### Building Code
+Navigate to the specific lab directory (e.g., lab1/ or rtos/rtos1/) and run:
+```bash
+make
+```  
+
+#### Running Unit Tests
+To build and run the unit tests:
+```bash
+make test
+```
+
+#### Cleaning Build Files
+To remove compiled object files and executables:
+```bash
+make clean
+``` 
+
+#### Flashing to Target Board
+To flash the executable onto the board, run the flash script inside a lab directory:
+
+* **Linux / macOS / WSL**:
+  ```bash
+  ../flash.sh
+  ```
+
+* **Windows (PowerShell)**:
+  ```powershell
+  ..\flash.ps1
+  ```
+
+#### Launching Serial Terminal
+Launch a new terminal inside the lab directory to monitor serial output:
+
+* **Linux / macOS / WSL**:
+  ```bash
+  ../monitor.sh
+  ```
+
+* **Windows (PowerShell)**:
+  ```powershell
+  ..\monitor.ps1
+  ```
+
+> **Note:**
+> Saving any source file automatically applies code formatting via *.clang-format*. Learn more about formatting options in the [Clang documentation.](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
+
+### Debugging
+1. Connect target board to PC via USB.
+2. Open the **main.c** file from the lab.
+3. Navigate to the **Run and Debug tab**.
+4. Select matching board configuration (either **MSP-EXP432P401R** or **EK-TM4C123GXL**).
+5. Press **F5** to start debugging.
+
+## Source Control & Submission Workflow
+
+### Useful Git Commands
+
+#### Show Changes Staged/Not Staged for Commit
+```bash
+git status
+```
+
+#### Show History of Commits
+```bash
+git log # Press 'q' to exit
+```
+
+#### Show What Changes Were Done in the Commit
+```bash
+git show [HEAD~X] # X - How many commits ago, press 'q' to exit
+```
+
+#### Stage Specific Files for Commit
+```bash
+git add <FILES_TO_ADD_TO_COMMIT>
+```
+
+#### Stage All Unstaged Files for Commit
+```bash
+git add .
+```
+
+#### Commit Staged Changes
+Follow the [Conventional Commits format:](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13) `<type>: <description>`.  
+- **type**: Either feat (new feature/lab implementation) or fix (bug fix/correction). 
+- **description**: Imperative present case, no period, no capital letter start.  
+
+Example: `feat: add LED initialization`
+
+```bash
+git commit -m "<type>: <description>"
+```
+
+#### Push Changes to Your Remote Repository
+```bash
+git push
+```
+
+#### Sync Updates From Course Repository
+```bash
+git pull --no-rebase upstream main -m "Sync lab updates"
+```
+
+## Lab assistance contact
 Anton Jaštšuk: ajasts@taltech.ee  
 Uljana Reinsalu: uljana.reinsalu@taltech.ee
 
-## Authors and acknowledgment
-Anton Jaštšuk  
-Uljana Reinsalu  
-Nazrul Nazeer  
-Tatsuki Ishikawa  
-
-Jonathan Valvano  
-Daniel Valvano  
-Ramesh Yerraballi
+## Acknowledgements
+* Anton Jaštšuk - Grader, unit tests development, lab contents upgrade
+* Uljana Reinsalu - Ideas and mentor
+* Nazrul Nazeer - Tools suggestions and interrupt handler help
+* Tatsuki Ishikawa - OLED display driver help
+* Jonathan Valvano - Material and labs
+* Daniel Valvano - Material and labs
+* Ramesh Yerraballi - Material and labs
+* Bruno4l - [OLED driver](https://github.com/Bruno4l/SSD1306-EK-TM4C123GXL)
 
 ![EU twin logo](images/Co-funded-by-the-European-Union-twin-logos.png)
 ![Inseneriakadeemia logo](images/Inseneriakadeemia-logo.png)
