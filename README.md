@@ -50,11 +50,11 @@ winget install --interactive --exact dorssel.usbipd-win
 Now your hardware is accessible inside WSL.
 
 ### Installation
-1. Open [TalTech GitLab](https://gitlab.cs.ttu.ee/), choose *New project -> Create blank project*. In *Manage -> Members -> Invite members* invite *ajasts* as a *Reporter*.
+1. Open [TalTech GitLab](https://gitlab.cs.ttu.ee/), choose *New project -> Create blank project*.
 
-2. Name the repository using kebab-case, set it to private and **UNTICK** the *Initialize repository with a README*.
+2. Name the repository using kebab-case, set it to private and **UNTICK** the *Initialize repository with a README*. After in *Manage -> Members -> Invite members* invite *ajasts* as a *Reporter*.
 
-> [!WARNING]
+> **Warning:**
 > Ensure *Git* is installed on your system before proceeding (*Skip this step if using pre-configured classroom computers*). If not:
 > * **Linux**:
 >   * Debian/Ubuntu: In terminal run `sudo apt update && sudo apt install -y git`
