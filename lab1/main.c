@@ -14,7 +14,7 @@ void Delay20ms(void);
 
 int main(void) {
     PortFInit();        // Call initialization of port PF4, PF3, PF2, PF1, PF0
-    BESGrader();
+    //BESGrader();
     uint32_t sw1, sw2;  // Input from PF4, PF0
     uint32_t out;       // Output for PF1, PF2, PF3
     while (true) {

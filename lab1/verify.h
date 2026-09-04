@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "inc/tm4c123gh6pm.h"
+#include "tm4c123gh6pm.h"
 
 /*
     Activates the grader for the student. Sets up the interrupts

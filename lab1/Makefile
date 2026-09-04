@@ -1,114 +1,62 @@
-# Defines the part type that this project uses.
-PART=TM4C123GH6PM
+CC = arm-none-eabi-gcc
+NAME = lab
 
-# The base directory for TivaWare.
-ROOT=../../..
+vpath %.c ../common ../ti
 
-COMPILER=gcc
+OBJECTS = main.o led_color.o startup.o uartstdio.o syscalls.o
+DEPS = $(OBJECTS:.o=.d)
 
-PREFIX=arm-none-eabi
+CFLAGS = -I../ti
+CFLAGS += -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+CFLAGS += -ffunction-sections -fdata-sections
+CFLAGS += -std=c99 -Wall -pedantic -g -O0
+CFLAGS += -MMD -MP
+CFLAGS += -DTARGET_IS_TM4C123_RB1 -DPART_TM4C123GH6PM
 
-# The command for calling the compiler.
-CC=${PREFIX}-gcc
+LDFLAGS = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+LDFLAGS += -Wl,--entry=ResetISR
+LDFLAGS += -Wl,-T,../common/config.ld -Wl,-Map,$(NAME).map
+LDFLAGS += -Wl,--gc-sections -static
+LDFLAGS += --specs=nano.specs --specs=nosys.specs
 
-# The location of the C compiler
-# ARMGCC_ROOT is used by some makefiles that need to know where the compiler
-# is installed.
-ARMGCC_ROOT:=${shell dirname '${shell sh -c "which ${CC}"}'}/..
+LDLIBS = -L../ti/ -ldriver -lgcc -lc -lm
 
-# Set the compiler CPU/FPU options.
-CPU=-mcpu=cortex-m4
-FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=softfp
+HOST_CC = gcc
+UNITY_DIR = ../unity
 
-# The flags passed to the compiler.
-CFLAGS=-mthumb             \
-       ${CPU}              \
-       ${FPU}              \
-       -ffunction-sections \
-       -fdata-sections     \
-       -std=c99            \
-       -Wall               \
-       -pedantic           \
-       -DPART_${PART}      \
-       -c
+TEST_SRC = test/test_led_color.c
+TESTABLE_SRC = led_color.c
+TEST_TARGET = test_runner
 
-# The command for calling the library archiver.
-AR=${PREFIX}-ar
+TEST_INC = -I. -I$(UNITY_DIR)
+TEST_CFLAGS = -std=c99 -Wall -pedantic -g -O0 -ffunction-sections -fdata-sections
 
-# The command for calling the linker.
-LD=${PREFIX}-ld
+# Cross-platform file deletion
+ifeq ($(OS),Windows_NT)
+    RM = del /f /q 
+else
+    RM = rm -f
+endif
 
-# The flags passed to the linker.
-LDFLAGS=--gc-sections
+.PHONY: all clean test
 
-# Get the location of libgcc.a from the GCC front-end.
-LIBGCC:=${shell ${CC} ${CFLAGS} -print-libgcc-file-name}
-
-# Get the location of libc.a from the GCC front-end.
-LIBC:=${shell ${CC} ${CFLAGS} -print-file-name=libc.a}
-
-# Get the location of libm.a from the GCC front-end.
-LIBM:=${shell ${CC} ${CFLAGS} -print-file-name=libm.a}
-
-# The command for extracting images from the linked executables.
-OBJCOPY=${PREFIX}-objcopy
-
-CFLAGS+=-D DEBUG
-
-# Add the tool specific CFLAGS.
-CFLAGS+=-DTARGET_IS_BLIZZARD_RB1
-
-# Where to find source files that do not live in this directory.
-VPATH=../../../utils
-
-# Where to find header files that do not live in the source directory.
-IPATH=../../..
-
-# Add the include file paths to CFLAGS.
-CFLAGS+=${patsubst %,-I%,${subst :, ,${IPATH}}}
-
-# The default rule, which causes the main to be built.
-all: ${COMPILER}
-all: ${COMPILER}/main.axf
-
-GRADER=verify
-UART=uartstdio
-STARTUP=startup
-
-# The rule to clean out all the build products, keep grader files.
-clean:
-	@find ${COMPILER} -maxdepth 1 ! -name '${GRADER}.o' ! -name '${STARTUP}.o' ! -name '${UART}.o' -type f -delete
-
-# The rule to create the target directory (will do nothing if already exists).
-${COMPILER}:
-	@mkdir -p ${COMPILER}
-
-# Linker script is common for all projects.
-SCATTERgcc=../config.ld
-
-# From startup.c
-ENTRY=ResetISR
-
-# Rules for building the main.
-${COMPILER}/main.axf: ${COMPILER}/main.o
-${COMPILER}/main.axf: ${COMPILER}/led_color.o
-${COMPILER}/main.axf: ${ROOT}/driverlib/${COMPILER}/libdriver.a
-${COMPILER}/main.axf: ${SCATTERgcc}
-
-# The rule for building the OBJECT file from each C source file.
-${COMPILER}${SUFFIX}/%.o: %.c
-	@${CC} ${CFLAGS} -g -O0 -D${COMPILER} -o ${@} ${<}
-
-# The rule for creating an OBJECT LIBRARY.
-${COMPILER}${SUFFIX}/%.a:
-	${AR} -cr ${@} ${^}
-
-# The rule for linking the application (ALSO LINKS WITH GRADER).
-${COMPILER}${SUFFIX}/%.axf:
-	@${LD} -T ${SCATTERgcc}                                                   \
-	      --entry ${ENTRY}                                                   \
-	      ${LDFLAGS} -o ${@} ${COMPILER}/${GRADER}.o ${COMPILER}/${UART}.o   \
-		  ${COMPILER}/${STARTUP}.o $(filter %.o %.a, ${^}) 				     \
-	      '${LIBM}' '${LIBC}' '${LIBGCC}'
-	@${OBJCOPY} -O binary ${@} ${@:.axf=.bin}
+all: $(NAME).axf
 	@echo "SUCCESS: Compilation completed successfully."
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME).axf: $(OBJECTS)
+	@$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+test: $(TEST_SRC) $(TESTABLE_SRC) $(UNITY_DIR)/unity.c
+	@$(HOST_CC) $(TEST_CFLAGS) $(TEST_INC) -o $(TEST_TARGET) $^
+	@echo "--------------------------------------------------"
+	@echo "Running Unit Tests on Host PC:"
+	@echo "--------------------------------------------------"
+	@./$(TEST_TARGET)
+
+-include $(DEPS)
+
+clean:
+	@$(RM) $(OBJECTS) $(DEPS) $(NAME).axf $(NAME).map $(TEST_TARGET)
