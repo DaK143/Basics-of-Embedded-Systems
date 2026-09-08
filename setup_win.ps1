@@ -18,11 +18,14 @@ Write-Host "Running setup with administrator privileges..."
 $ProgressPreference = "SilentlyContinue"
 
 Write-Host "Installing OpenOCD, MinGW-w64, Python, VS Code and PuTTY via Winget..."
-winget install --id xpack-dev-tools.openocd-xpack -e --accept-source-agreements --accept-package-agreements
-winget install --id BrechtSanders.WinLibs.POSIX.UCRT -e --accept-source-agreements --accept-package-agreements
-winget install --id Python.Python.3.12 -e --accept-source-agreements --accept-package-agreements
-winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements
-winget install --id PuTTY.PuTTY -e --accept-source-agreements --accept-package-agreements
+winget install --id xpack-dev-tools.openocd-xpack -e --accept-source-agreements --accept-package-agreements -s winget
+winget install --id BrechtSanders.WinLibs.POSIX.UCRT -e --accept-source-agreements --accept-package-agreements -s winget
+winget install --id Python.Python.3.12 -e --accept-source-agreements --accept-package-agreements -s winget
+winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements -s winget
+winget install --id PuTTY.PuTTY -e --accept-source-agreements --accept-package-agreements -s winget
+
+# Pull fresh PATH straight from registry
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 $makeCmd = Get-Command mingw32-make.exe -ErrorAction SilentlyContinue
 if ($makeCmd) {
@@ -33,9 +36,6 @@ if ($makeCmd) {
         Write-Host "Successfully created make.exe alias."
     }
 }
-
-# Pull fresh PATH straight from registry
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 Write-Host "Installing VS Code extensions..."
 code --install-extension marus25.cortex-debug

@@ -54,7 +54,7 @@ Now your hardware is accessible inside WSL.
 
 2. Name the repository using kebab-case, set it to private and **UNTICK** the *Initialize repository with a README*. After in *Manage -> Members -> Invite members* invite *ajasts* as a *Reporter*.
 
-> **Warning:**
+> [!WARNING]
 > Ensure *Git* is installed on your system before proceeding (*Skip this step if using pre-configured classroom computers*). If not:
 > * **Linux**:
 >   * Debian/Ubuntu: In terminal run `sudo apt update && sudo apt install -y git`
@@ -76,7 +76,7 @@ Now your hardware is accessible inside WSL.
    git push -u origin main # Will ask you for your UNI-ID username and password
    ```
 
-> **Important:**
+> [!IMPORTANT]
 > In order to not enter the credentials everytime you push, use `git config credential.helper 'cache --timeout=10800'`. When you enter username and password next time, it will save the credentials for next 3 hours.
 
 5. Run the setup script for your OS which takes ~3 minutes (*Skip this step if using pre-configured classroom computers*):
@@ -86,7 +86,7 @@ Now your hardware is accessible inside WSL.
    ./setup_linux.sh
    ```
 
-> **Important:**
+> [!IMPORTANT]
 > Linux users must install [VS Code](https://code.visualstudio.com/docs/setup/linux) manually if it is not already installed.
 
    * **macOS**  
@@ -95,13 +95,13 @@ Now your hardware is accessible inside WSL.
    ./setup_mac.command
    ```
 
-> **Important:**
+> [!IMPORTANT]
 > macOS users must install [VS Code](https://code.visualstudio.com/Download) manually. Then install required extensions: *'marus25.cortex-debug'*, *'llvm-vs-code-extensions.vscode-clangd'*.
 
    * **Windows 10/11 (Native)**  
    In **PowerShell (Admin)**, run:
    ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
    .\setup_win.ps1
    ```
 
@@ -180,7 +180,7 @@ Launch a new terminal inside the lab directory to monitor serial output:
   ..\monitor.ps1
   ```
 
-> **Note:**
+> [!NOTE]
 > Saving any source file automatically applies code formatting via *.clang-format*. Learn more about formatting options in the [Clang documentation.](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
 
 ### Debugging
