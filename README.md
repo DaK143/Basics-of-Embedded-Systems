@@ -237,7 +237,7 @@ git push
 
 #### Sync Updates From Course Repository
 ```bash
-git pull --no-rebase upstream main -m "Sync lab updates"
+git pull --no-rebase upstream main
 ```
 
 ## Lab assistance contact
