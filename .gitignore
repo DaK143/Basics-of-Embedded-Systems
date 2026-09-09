@@ -3,6 +3,7 @@ compile_commands.json
 *.d
 *.map
 *.o
+!verify.o
 *.out
 *.axf
 *.bin

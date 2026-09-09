@@ -6,3 +6,4 @@
 Makefile text eol=lf
 *.sh text eol=lf
 *.json text eol=lf
+*.o binary

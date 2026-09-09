@@ -31,6 +31,9 @@ TEST_TARGET = test_runner
 TEST_INC = -I. -I$(UNITY_DIR)
 TEST_CFLAGS = -std=c99 -Wall -pedantic -g -O0 -ffunction-sections -fdata-sections
 
+GRADER_SRC = verify.c
+GRADER_OBJ = verify.o
+
 # Cross-platform file deletion
 ifeq ($(OS),Windows_NT)
     RM = del /f /q 
@@ -38,7 +41,7 @@ else
     RM = rm -f
 endif
 
-.PHONY: all clean test
+.PHONY: all clean test grader
 
 all: $(NAME).axf
 	@echo "SUCCESS: Compilation completed successfully."
@@ -46,7 +49,7 @@ all: $(NAME).axf
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME).axf: $(OBJECTS)
+$(NAME).axf: $(OBJECTS) $(GRADER_OBJ)
 	@$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 test: $(TEST_SRC) $(TESTABLE_SRC) $(UNITY_DIR)/unity.c
@@ -55,6 +58,9 @@ test: $(TEST_SRC) $(TESTABLE_SRC) $(UNITY_DIR)/unity.c
 	@echo "Running Unit Tests on Host PC:"
 	@echo "--------------------------------------------------"
 	@./$(TEST_TARGET)
+
+grader:
+	@$(CC) $(CFLAGS) -Os -g0 -c $(GRADER_SRC) -o $(GRADER_OBJ)
 
 -include $(DEPS)
 
