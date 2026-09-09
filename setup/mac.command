@@ -9,8 +9,7 @@ set -e
 # - CompileDB for compile_commands.json generation
 # - tio for serial terminal monitoring
 
-# Ensure script executes in the directory where setup_mac.command lives
-# (Critical when double-clicking from macOS Finder)
+# Ensure script executes in the directory where it lives
 cd "$(dirname "$0")"
 
 ARCH=$(uname -m)
@@ -57,7 +56,7 @@ else
     echo "ARM GNU Toolchain already installed in ${ARM_DEST_DIR}. Skipping download."
 fi
 
-# Export so compieldb would not fail silently
+# Export so compiledb would not fail silently
 export PATH="${ARM_DEST_DIR}/bin:${PATH}"
 
 SHELL_CONFIG="${HOME}/.zshrc"
@@ -75,6 +74,9 @@ else
     echo "Adding GNU Make to PATH in ${SHELL_CONFIG}..."
     echo "export PATH=\"${GNU_MAKE_PATH}:\$PATH\"" >> "${SHELL_CONFIG}"
 fi
+
+# Move back up once to root repository
+cd ..
 
 JSON_OUT="$(pwd)/compile_commands.json"
 

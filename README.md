@@ -32,19 +32,18 @@ winget install --interactive --exact dorssel.usbipd-win
 #### Connecting Hardware to WSL
 * Plug in the board via USB and run this in **PowerShell (Admin)** on Windows:
   ```powershell
-  usbipd list
-  # Look for 'Stellaris Virtual Serial Port' or 'XDS110 Class Application/User UART'
-  usbipd bind -i <VID:PID> # Only required once per unique board
+  usbipd bind -i 1cbe:00fd # Only required once per unique board
   ```
 
+After **cloning the repository**, it is possible to use provided scripts:
 * Open your **WSL Linux terminal** and run this **only once per WSL boot**: 
   ```bash
-  ./wsl2_usb_prepare.sh
+  ./wsl2_usb/prepare.sh
   ```
 
 * Run this **every time you plug in the board**:
   ```bash
-  ./wsl2_usb_attach.sh
+  ./wsl2_usb/attach.sh
   ```
 
 Now your hardware is accessible inside WSL.
@@ -83,7 +82,7 @@ Now your hardware is accessible inside WSL.
    * **Linux / WSL**  
    In terminal, run: 
    ```bash
-   ./setup_linux.sh
+   ./setup/linux.sh
    ```
 
 > [!IMPORTANT]
@@ -92,7 +91,7 @@ Now your hardware is accessible inside WSL.
    * **macOS**  
    In terminal, run: 
    ```bash
-   ./setup_mac.command
+   ./setup/mac.command
    ```
 
 > [!IMPORTANT]
@@ -102,7 +101,7 @@ Now your hardware is accessible inside WSL.
    In **PowerShell (Admin)**, run:
    ```powershell
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-   .\setup_win.ps1
+   .\setup\win.ps1
    ```
 
 6. Close and reopen the terminal for all environment variables (*PATH*) to take effect.
@@ -113,9 +112,10 @@ Now your hardware is accessible inside WSL.
 ├── common/      # Shared source files
 ├── lab*/        # Bare-metal microcontroller labs
 ├── oled/        # Driver for the Adafruit 128x64 OLED
+├── setup/       # Setup scripts for Linux, macOS and Win10/11
 ├── ti/          # TivaWare include and source files*
 ├── unity/       # Unit testing library
-└── project/     # Final robot project
+└── wsl2_usb/    # WSL2 USB attach and prepare scripts
 ```
 
 **Include files are taken from [TivaWare for C Series Software](https://www.ti.com/tool/download/SW-TM4C/2.1.4.178).*

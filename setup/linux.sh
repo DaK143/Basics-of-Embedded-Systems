@@ -10,7 +10,7 @@ set -e
 # - CompileDB for compile_commands.json generation
 # - tio for serial terminal monitoring
 
-# Ensure script executes in the directory where setup_ubuntu.sh lives
+# Ensure script executes in the directory where it lives
 cd "$(dirname "$0")"
 
 ARCH=$(uname -m)
@@ -80,8 +80,11 @@ echo "Installing compiledb via pipx..."
 pipx ensurepath
 pipx install compiledb
 
-# Export so compieldb can be run from this session
+# Export so compiledb can be run from this session
 export PATH="${HOME}/.local/bin:${PATH}"
+
+# Move back up once to root repository
+cd ..
 
 JSON_OUT="$(pwd)/compile_commands.json"
 

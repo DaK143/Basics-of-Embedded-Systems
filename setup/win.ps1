@@ -10,6 +10,7 @@ $ErrorActionPreference = "Stop"
 # - PuTTY for serial terminal monitoring
 # - Zadig for WinUSB driver setup
 
+# Ensure script executes in the directory where it lives
 if ($PSScriptRoot) { Set-Location $PSScriptRoot }
 
 Write-Host "Running setup with administrator privileges..."
@@ -85,6 +86,9 @@ if (-not (Test-Path "$VenvScripts\compiledb.exe")) {
 }
 
 $env:Path = "$VenvScripts;$env:Path"
+
+# Move back up once to root repository
+cd ..
 
 $JSONOut = Join-Path (Get-Location) "compile_commands.json"
 if (Test-Path $JSONOut) { Remove-Item $JSONOut -Force }
