@@ -43,7 +43,7 @@ TESTABLE_SRC = sequence.c
 TEST_OBJ = test/test_sequence_$(HOST_OS).o
 TEST_TARGET = test_runner
 
-TEST_INC = -I. -I$(UNITY_DIR)
+TEST_INC = -I. -I$(UNITY_DIR) -I../ti
 TEST_CFLAGS = -std=c99 -Wall -pedantic -g -O0 -ffunction-sections -fdata-sections
 
 GRADER_SRC = verify.c
