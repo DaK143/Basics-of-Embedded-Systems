@@ -2,7 +2,7 @@
 #define SEQUENCE_H
 
 #include <stdint.h>
-#include "inc/tm4c123gh6pm.h"
+#include "tm4c123gh6pm.h"
 
 /*
     \brief Subroutine reads SW input and waits for signal to be low.
