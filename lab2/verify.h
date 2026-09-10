@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "utils/uartstdio.h"
+#include "uartstdio.h"
 
 void ConfigureUART(void);
 uint32_t atoi(const char* str);
