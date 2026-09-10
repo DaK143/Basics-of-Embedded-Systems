@@ -49,9 +49,9 @@ After **cloning the repository**, it is possible to use provided scripts:
 Now your hardware is accessible inside WSL.
 
 ### Installation
-1. Open [TalTech GitLab](https://gitlab.cs.ttu.ee/), choose *New project -> Create blank project*.
+1. Open [TalTech BESLabs GitLab](https://gitlab.cs.ttu.ee/ajasts/beslabs), press *Fork*.
 
-2. Name the repository using kebab-case, set it to private and **UNTICK** the *Initialize repository with a README*. After in *Manage -> Members -> Invite members* invite *ajasts* as a *Reporter*.
+2. Name the project using kebab-case (e.g. ias0230-labs), set *Visibility level* to **Private** and *Select a namespace* must be your UNI-ID username. After in *Manage -> Members -> Invite members* invite *ajasts* as a *Reporter*.
 
 > [!WARNING]
 > Ensure *Git* is installed on your system before proceeding (*Skip this step if using pre-configured classroom computers*). If not:
@@ -60,25 +60,18 @@ Now your hardware is accessible inside WSL.
 >   * Fedora/RHEL: In terminal run `sudo dnf install -y git`
 >   * Arch: In terminal run `sudo pacman -Syu --needed --noconfirm git`
 > * **macOS**: In terminal run `xcode-select --install`
-> * **Windows 10/11 (Native)**: In PowerShell terminal run `winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements`
+> * **Windows 10/11 (Native)**: In PowerShell terminal run `winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements -s winget`
 
 3. Clone the BESLabs repository and change into the cloned directory:
    ```bash
-   git clone https://gitlab.cs.taltech.ee/ajasts/beslabs.git
+   git clone https://gitlab.cs.taltech.ee/<YOUR_UNI_ID_USERNAME>/<YOUR_PROJECT_NAME>.git
    cd beslabs
    ```
 
-4. Change the remote origin to point to your repository:
-   ```bash
-   git remote rename origin upstream
-   git remote add origin https://gitlab.cs.taltech.ee/<UNI-ID>/<YOUR_REPO_NAME>.git
-   git push -u origin main # Will ask you for your UNI-ID username and password
-   ```
-
 > [!IMPORTANT]
-> In order to not enter the credentials everytime you push, use `git config credential.helper 'cache --timeout=10800'`. When you enter username and password next time, it will save the credentials for next 3 hours.
+> In order not to enter the UNI-ID username and password everytime you push, use `git config credential.helper 'cache --timeout=10800'`. When you enter credentials next time, git will save them for next 3 hours.
 
-5. Run the setup script for your OS which takes ~3 minutes (*Skip this step if using pre-configured classroom computers*):
+4. Run the setup script for your OS which takes ~3 minutes (*Skip this step if using pre-configured classroom computers*):
    * **Linux / WSL**  
    In terminal, run: 
    ```bash
@@ -104,13 +97,14 @@ Now your hardware is accessible inside WSL.
    .\setup\win.ps1
    ```
 
-6. Close and reopen the terminal for all environment variables (*PATH*) to take effect.
+5. Close and reopen the terminal for all environment variables (*PATH*) to take effect.
 
 ### Structure
 ```text
 .
 ├── common/      # Shared source files
 ├── lab*/        # Bare-metal microcontroller labs
+│   └── test/    # Pre-compiled host OS object files
 ├── oled/        # Driver for the Adafruit 128x64 OLED
 ├── setup/       # Setup scripts for Linux, macOS and Win10/11
 ├── ti/          # TivaWare include and source files*
@@ -236,9 +230,13 @@ git push
 ```
 
 #### Sync Updates From Course Repository
+In your forked repository in [TalTech GitLab](https://gitlab.cs.ttu.ee/), click *'Update fork'* when your repository is behind upstream. Then, in the repository directory terminal type:
 ```bash
-git pull --no-rebase upstream main
+git pull
 ```
+
+> [!NOTE]
+> Make sure you commited any local changes before running `git pull`.
 
 ## Lab assistance contact
 Anton Jaštšuk: ajasts@taltech.ee  
