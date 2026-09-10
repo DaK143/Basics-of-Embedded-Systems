@@ -4,10 +4,13 @@
 
 PORT=$(ls /dev/ttyACM* /dev/ttyUSB* /dev/cu.usbmodem* /dev/cu.usbserial* 2> /dev/null | head -n 1)
 
-if [ -n "$PORT" ]; then
+if [[ -n "$PORT" ]]; then
     echo "Detected MCU on $PORT..."
+    if grep -qi "wsl2" /proc/sys/kernel/osrelease 2> /dev/null; then
+        stty -F "$PORT" 115200 hup -clocal # Configure speed and enable terminal hangup/DTR assertion
+    fi
     tio "$PORT"
 else
-    echo "Error: No serial device (/dev/ttyACM* or /dev/cu.usbmodem*) found!"
+    echo "Error: No serial device found! Ensure the board is plugged in."
     exit 1
 fi

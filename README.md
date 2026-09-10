@@ -172,12 +172,12 @@ Launch a new terminal inside the lab directory to monitor serial output:
 
 * **Linux / macOS / WSL**:
   ```bash
-  ../monitor.sh
+  ../monitor.sh # Press 'Ctrl + t', and then 'q' to close
   ```
 
 * **Windows (PowerShell)**:
   ```powershell
-  ..\monitor.ps1
+  ..\monitor.ps1 # Press 'Ctrl + c' to close
   ```
 
 > [!NOTE]
