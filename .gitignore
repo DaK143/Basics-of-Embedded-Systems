@@ -4,6 +4,7 @@ compile_commands.json
 *.map
 *.o
 !verify.o
+!test_*.o
 *.out
 *.axf
 *.bin

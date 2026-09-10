@@ -21,11 +21,26 @@ LDFLAGS += --specs=nano.specs --specs=nosys.specs
 
 LDLIBS = -L../ti/ -ldriver -lgcc -lc -lm
 
+# Host OS detection
+ifeq ($(OS),Windows_NT)
+	HOST_OS = win
+	RM = del /f /q
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		HOST_OS = linux
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		HOST_OS = mac
+		endif
+	RM = rm -f
+endif
+
 HOST_CC = gcc
 UNITY_DIR = ../unity
 
-TEST_SRC = test/test_led_color.c
 TESTABLE_SRC = led_color.c
+TEST_OBJ = test/test_led_color_$(HOST_OS).o
 TEST_TARGET = test_runner
 
 TEST_INC = -I. -I$(UNITY_DIR)
@@ -33,13 +48,6 @@ TEST_CFLAGS = -std=c99 -Wall -pedantic -g -O0 -ffunction-sections -fdata-section
 
 GRADER_SRC = verify.c
 GRADER_OBJ = verify.o
-
-# Cross-platform file deletion
-ifeq ($(OS),Windows_NT)
-    RM = del /f /q 
-else
-    RM = rm -f
-endif
 
 .PHONY: all clean test grader
 
@@ -52,7 +60,7 @@ all: $(NAME).axf
 $(NAME).axf: $(OBJECTS) $(GRADER_OBJ)
 	@$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-test: $(TEST_SRC) $(TESTABLE_SRC) $(UNITY_DIR)/unity.c
+test: $(TESTABLE_SRC) $(UNITY_DIR)/unity.c $(TEST_OBJ)
 	@$(HOST_CC) $(TEST_CFLAGS) $(TEST_INC) -o $(TEST_TARGET) $^
 	@echo "--------------------------------------------------"
 	@echo "Running Unit Tests on Host PC:"
