@@ -24,10 +24,19 @@ void Delay100ms(uint32_t times);
 int main(void){
     PortFInit(); // Student submitted subroutine
     BESGrader();
+
     uint32_t sw1;  // input from PF4
     uint32_t out;  // output for PF2
+
     while (true) {
-        // Complete this functionality!
+
+        sw1 = ((GPIO_PORTF_DATA_R & 0x10) >> 4);
+
+        Delay100ms(1);
+
+        out = SetOrToggleLED(sw1, GPIO_PORTF_DATA_R);
+
+        GPIO_PORTF_DATA_R = out;
     }
 }
 
@@ -40,19 +49,38 @@ int main(void){
     \return None
     \note Set the LED to be initially ON at the end of the initialization. Bit setting
     doesn't affect other bits.
-*/
-void PortFInit(void) {
-    // Complete this function!
+*/void PortFInit(void) {
     volatile uint32_t delay;
+
     // Turn on the clock for Port F
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOF;
+
     // Allow time for clock to start
-    // Disable analog on PF4 and PF2 AMSEL
-    // Clear PF4 and PF2 bit fields PCTL to configure as GPIO
-    // PF4 input, PF2 output
-    // Clear PF4 and PF2 bits AFSEL to disable alternate functions
-    // Set PF4 PUR to activate an internal pullup resistor
-    // Set PF4 and PF2 bits DEN to enable digital
-    // Set PF2 DATA so LED is initially ON
+    delay = SYSCTL_RCGC2_R;
+
+    // Disable analog on PF4 and PF2
+    GPIO_PORTF_AMSEL_R &= ~0x14;
+
+    // Configure PF4 and PF2 as GPIO
+    GPIO_PORTF_PCTL_R &= ~0x000F0F00;
+
+    // PF4 input
+    GPIO_PORTF_DIR_R &= ~0x10;
+
+    // PF2 output
+    GPIO_PORTF_DIR_R |= 0x04;
+
+    // Disable alternate functions
+    GPIO_PORTF_AFSEL_R &= ~0x14;
+
+    // Activate pull-up resistor on PF4
+    GPIO_PORTF_PUR_R |= 0x10;
+
+    // Enable digital I/O
+    GPIO_PORTF_DEN_R |= 0x14;
+
+    // LED initially ON
+    GPIO_PORTF_DATA_R |= 0x04;
 }
 
 #define DELAY_100MS 160000 // ~100ms
