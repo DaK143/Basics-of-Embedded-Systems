@@ -16,17 +16,32 @@ int main(void) {
     BESGrader();
     uint32_t out;       // output for PF3 and PF1 (for the debugger)
     while (true) {
-        // Complete this functionality!
-        // It is allowed to go on the slide (green)
-        // Wait for a person to go down the slide
-        // It is disallowed to go on the slide (red)
-        // Debounce the switch
-        // Wait for a person to leave the slide
-        // Delay 500ms
-        // Prepare to go down the slide (yellow)
-        // Delay 500ms
-        // Repeat
-    }
+
+    out = SetGreen(GPIO_PORTF_DATA_R);
+    GPIO_PORTF_DATA_R = out;
+
+    WaitForSWLow();
+
+    out = ClearGreen(GPIO_PORTF_DATA_R);
+    GPIO_PORTF_DATA_R = out;
+
+    out = SetRed(GPIO_PORTF_DATA_R);
+    GPIO_PORTF_DATA_R = out;
+
+    Delay1ms(20);
+
+    WaitForSWHigh();
+
+    Delay1ms(500);
+
+    out = SetGreen(GPIO_PORTF_DATA_R);
+    GPIO_PORTF_DATA_R = out;
+
+    Delay1ms(500);
+
+    out = ClearRed(GPIO_PORTF_DATA_R);
+    GPIO_PORTF_DATA_R = out;
+}
 }
 
 /* 
@@ -50,7 +65,7 @@ void PortFInit(void){
     GPIO_PORTF_DEN_R |= 0x1A;               // Enable digital pins PF4, PF3, PF1
 }
 
-#define DELAY_1MS ? // Enter value that is close to ~0.9-1ms
+#define DELAY_1MS 1600 // Enter value that is close to ~0.9-1ms
 
 /*
     \brief Subroutine to delay in units of milliseconds
