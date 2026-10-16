@@ -27,7 +27,12 @@ int main(void){
     uint32_t sw;   // input from PE0
     uint32_t out;  // output for PE1
     while (true) {
-        // Complete this functionality!
+        sw = GPIO_PORTE_DATA_R & 0x01;      // loe PE0
+
+        Delay100ms(1);                      // oota ~100 ms
+
+        out = SetOrToggleLED(sw, GPIO_PORTE_DATA_R);
+        GPIO_PORTE_DATA_R = out;            // uuenda PE1
     }
 }
 
@@ -42,17 +47,24 @@ int main(void){
     doesn't affect other bits.
 */
 void PortEInit(void) {
-    // Complete this function!
     volatile uint32_t delay;
-    // Turn on the clock for Port E
-	// Allow time for clock to start
-	// Disable analog on PE1 and PE0 AMSEL
-	// Clear PE1 and PE0 bit fields PCTL to configure as GPIO
-	// PE0 in, PE1 out
-	// Clear PE1 and PE0 bits AFSEL to disable alternate functions
-	// Clear PE1 and PE0 PUR
-	// Set PE1 and PE0 bits DEN to enable digital
-	// Set PE1 so LED is initially ON      
+
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOE;
+    delay = SYSCTL_RCGC2_R;
+
+    GPIO_PORTE_AMSEL_R &= ~0x03;
+    GPIO_PORTE_PCTL_R &= ~0x000000FF;
+
+    GPIO_PORTE_DIR_R &= ~0x01;   // PE0 input
+    GPIO_PORTE_DIR_R |= 0x02;    // PE1 output
+
+    GPIO_PORTE_AFSEL_R &= ~0x03;
+
+    GPIO_PORTE_PUR_R &= ~0x03;   // positive logic, no pullup
+
+    GPIO_PORTE_DEN_R |= 0x03;
+
+    GPIO_PORTE_DATA_R |= 0x02;   // LED alguses ON
 }
 
 #define DELAY_100MS 160000 // ~100ms
