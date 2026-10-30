@@ -96,10 +96,17 @@ void RecordTimeAndData(void) {
     the LED is off. Delay50ms is called once regardless of the input.
 */
 void DetectInputChange(void) {
-    // Complete this function!
+
+    if ((GPIO_PORTF_DATA_R & 0x11) != 0x11) {
+        GPIO_PORTF_DATA_R ^= 0x02;   // toggle PF1
+    } else {
+        GPIO_PORTF_DATA_R &= ~0x02;  // LED off
+    }
+
+    Delay50ms();
 }
 
-#define DELAY_50MS 100000 // Incorrect! Should be ~50ms, change this!
+#define DELAY_50MS 80000 // Incorrect! Should be ~50ms, change this!
 
 /*
     \brief Subroutine to delay 50 milliseconds
