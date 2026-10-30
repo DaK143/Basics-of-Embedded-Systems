@@ -25,7 +25,8 @@
 void PortAInit(void);
 void SysTickInit(void);
 void SysTickHandler(void);
-
+volatile uint8_t PreviousSwitch = 0;
+volatile uint8_t SoundOn = 0;
 // Should remain untouched!
 int main(void) {
     PortAInit();
@@ -44,7 +45,20 @@ int main(void) {
     \note No analog, regular function, no alt function, digital enabled, 8-mA drive select for output
 */
 void PortAInit(void) {
-    // Complete this function!
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA;
+
+    GPIO_PORTA_AMSEL_R &= ~0x0C;
+    GPIO_PORTA_PCTL_R  &= ~0x0000FF00;
+    GPIO_PORTA_AFSEL_R &= ~0x0C;
+
+    GPIO_PORTA_DIR_R &= ~0x08;   // PA3 input
+    GPIO_PORTA_DIR_R |=  0x04;   // PA2 output
+
+    GPIO_PORTA_DR8R_R |= 0x04;   // 8mA drive on PA2
+
+    GPIO_PORTA_DEN_R |= 0x0C;    // enable PA2 and PA3
+
+    GPIO_PORTA_DATA_R &= ~0x04;  // buzzer off
 }
 
 /*
@@ -55,7 +69,7 @@ void PortAInit(void) {
 */
 void SysTickInit(void) {
     NVIC_ST_CTRL_R = 0;           // disable SysTick during setup
-    NVIC_ST_RELOAD_R = ? - 1;     // reload value for 1.13636ms (assuming 16MHz)
+    NVIC_ST_RELOAD_R = 18181 - 1;     // reload value for 1.13636ms (assuming 16MHz)
     NVIC_ST_CURRENT_R = 0;        // any write to current clears it
     NVIC_SYS_PRI3_R = NVIC_SYS_PRI3_R & 0x1FFFFFFF; // priority 0               
     NVIC_ST_CTRL_R = 0x00000007;  // enable with core clock and interrupts
@@ -70,5 +84,19 @@ void SysTickInit(void) {
     When the switch is held down, the buzzer tone is toggled on/off once!
 */
 void SysTickHandler(void) {
-    // Complete this function!
+
+    uint8_t currentSwitch = (GPIO_PORTA_DATA_R & 0x08) ? 1 : 0;
+
+    if ((PreviousSwitch == 0) && (currentSwitch == 1)) {
+        SoundOn ^= 1;
+    }
+
+    PreviousSwitch = currentSwitch;
+
+    if (SoundOn) {
+        GPIO_PORTA_DATA_R ^= 0x04;
+    }
+    else {
+        GPIO_PORTA_DATA_R &= ~0x04;
+    }
 }
