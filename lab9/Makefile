@@ -84,7 +84,7 @@ ${COMPILER}:
 	@mkdir -p ${COMPILER}
 
 # Linker script is common for all projects.
-SCATTERgcc=../config.ld
+SCATTERgcc=../common/config.ld
 
 # From startup.c
 ENTRY=ResetISR

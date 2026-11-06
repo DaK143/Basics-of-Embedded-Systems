@@ -2,7 +2,7 @@
 #include "ssd1306.h"
 #include "i2c_helper.h"
 
-#define SSD1306_ADDR    0x3D   // slave address (3C for 128x32, 3D for 128x64)
+#define SSD1306_ADDR    0x3C   // slave address (3C for 128x32, 3D for 128x64)
 #define CTRL_BYTE       0x00   // control that allows to send the command to the screen
 #define DATA_BYTE       0x40   // next coming byte is a data on the screen
 
